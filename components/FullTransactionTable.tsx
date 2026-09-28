@@ -68,7 +68,7 @@ export default function FullTransactionTable() {
         <div className="flex items-center justify-between gap-3">
           <div>
             <h2 className="text-[15px] font-semibold text-ink-900">
-              Transactions History
+              Transaction History
             </h2>
             <p className="mt-0.5 text-xs text-ink-500">Short subtitle</p>
           </div>
