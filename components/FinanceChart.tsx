@@ -8,13 +8,21 @@ import {
   Cell,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
 import { analytics } from "@/data/mock";
 
-function CustomTooltip({ active, payload, label }: TooltipProps<number, string>) {
+type CustomTooltipProps = {
+  active?: boolean;
+  payload?: ReadonlyArray<{
+    dataKey?: string | number;
+    value?: number | string;
+  }>;
+  label?: string | number;
+};
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload || payload.length === 0) return null;
   const income = payload.find((p) => p.dataKey === "income")?.value;
   const expenses = payload.find((p) => p.dataKey === "expenses")?.value;
@@ -78,7 +86,10 @@ export default function FinanceChart() {
               tick={{ fill: "#8A8FA3", fontSize: 12 }}
               tickFormatter={(v) => `$${v}`}
             />
-            <Tooltip cursor={false} content={<CustomTooltip />} />
+            <Tooltip
+              cursor={false}
+              content={(props) => <CustomTooltip {...(props as unknown as CustomTooltipProps)} />}
+            />
             <Bar dataKey="income" radius={[6, 6, 6, 6]} maxBarSize={10}>
               {analytics.map((entry, i) => (
                 <Cell key={`income-${i}`} fill={entry.highlight ? "#F4801F" : "#3A3F52"} />
